@@ -9,7 +9,7 @@ from sklearn.neighbors import KNeighborsClassifier
 # -----------------------------
 # Config
 # -----------------------------
-IMAGE_SIZE = (64, 64)  # smaller image size for simple k-NN
+IMAGE_SIZE = (224, 224)  # smaller image size for simple k-NN
 TOP_N = 3
 
 # -----------------------------
@@ -92,7 +92,7 @@ if dataset_dir and os.path.isdir(dataset_dir):
         
         if uploaded_file:
           img = Image.open(uploaded_file).convert('RGB').resize(IMAGE_SIZE)
-          st.image(img, caption="Uploaded Image", width=250)
+          st.image(img, caption="Uploaded Image", width=400)
     
           features = np.array([np.array(img).flatten()])
           top_preds = top_n_predictions(knn, features, TOP_N)
@@ -110,5 +110,6 @@ if dataset_dir and os.path.isdir(dataset_dir):
           for cls, prob in top_preds:
             readable_cls = label_map.get(cls, cls)
             st.write(f"**{readable_cls}** : {prob*100:.2f}%")
+            
         else:
-            st.warning("Please enter a valid dataset folder path.")
+            st.warning("Please upload an image.")
