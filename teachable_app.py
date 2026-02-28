@@ -53,7 +53,7 @@ st.set_page_config(page_title="🎨 Teachable AI Drag & Drop", layout="wide")
 st.title("🎨 Teachable AI Portfolio - Drag & Drop")
 
 dataset_dir = st.text_input("Enter dataset folder path:",
-                            value=r"C:\Users\kavya\OneDrive\Desktop\INTERN\Teachable Machine\teachable_app\dataset")
+                            value=r"C:\Users\kavya\OneDrive\Pictures\KAVYA\Codedex\teachable_app\dataset")
 
 if os.path.isdir(dataset_dir):
     X, y, file_paths = load_dataset(dataset_dir)
