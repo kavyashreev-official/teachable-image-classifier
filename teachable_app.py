@@ -70,9 +70,9 @@ if dataset_dir and os.path.isdir(dataset_dir):
         st.success(f"Dataset loaded: {len(X)} images, {len(np.unique(y))} classes")
         
         # Dataset preview
-        st.subheader("Dataset Preview (first 10 images)")
+        st.subheader("Dataset Preview (first 20 images)")
         cols = st.columns(5)
-        for idx, img_path in enumerate(file_paths[:10]):
+        for idx, img_path in enumerate(file_paths[:20]):
             with cols[idx % 5]:
                 img = Image.open(img_path).convert('RGB').resize((64, 64))
                 st.image(img, caption=y[idx], width=120)
@@ -91,24 +91,24 @@ if dataset_dir and os.path.isdir(dataset_dir):
         uploaded_file = st.file_uploader("Upload an image", type=["jpg","jpeg","png"])
         
         if uploaded_file:
-            img = Image.open(uploaded_file).convert('RGB').resize(IMAGE_SIZE)
-            st.image(img, caption="Uploaded Image", width=250)
-            
-            features = np.array([np.array(img).flatten()])
-            top_preds = top_n_predictions(knn, features, TOP_N)
-            
-                # Get top predicted class
-    predicted_class = top_preds[0][0]
+          img = Image.open(uploaded_file).convert('RGB').resize(IMAGE_SIZE)
+          st.image(img, caption="Uploaded Image", width=250)
+    
+          features = np.array([np.array(img).flatten()])
+          top_preds = top_n_predictions(knn, features, TOP_N)
+    
+          # Get top predicted class
+          predicted_class = top_preds[0][0]  # Highest probability class
 
-    # Map to human-readable label
-    predicted_label = label_map.get(predicted_class, predicted_class)
+          # Map to human-readable label
+          predicted_label = label_map.get(predicted_class, predicted_class)
 
-    # Display with emoji
-    st.markdown(f"## ✅ Predicted Class: **{predicted_label} {emoji_map.get(predicted_label, '')}**")
+          # Display with emoji
+          st.markdown(f"## ✅ Predicted Class: **{predicted_label} {emoji_map.get(predicted_label, '')}**")
 
-    st.write("**Top Predictions:**")
-    for cls, prob in top_preds:
-        readable_cls = label_map.get(cls, cls)
-        st.write(f"**{cls}** : {prob*100:.2f}%")
-else:
-    st.warning("Please enter a valid dataset folder path.")
+          st.write("**Top Predictions:**")
+          for cls, prob in top_preds:
+            readable_cls = label_map.get(cls, cls)
+            st.write(f"**{readable_cls}** : {prob*100:.2f}%")
+        else:
+            st.warning("Please enter a valid dataset folder path.")
